@@ -3,10 +3,10 @@
  * Plugin Name: iThemes Exchange - Custom URL Tracking
  * Version: 1.0.0
  * Description: Allows you to add custom URLs to products and to track usage.
- * Plugin URI: http://ithemes.com/exchange/targeted-product-urls/
+ * Plugin URI: http://ithemes.com/exchange/customer-url-tracking/
  * Author: iThemes
  * Author URI: http://ithemes.com
- * iThemes Package: exchange-addon-targeted-product-urls
+ * iThemes Package: exchange-addon-custom-url-tracking
  
  * Installation:
  * 1. Download and unzip the latest release zip file.
@@ -23,20 +23,20 @@
  *
  * @return void
 */
-function it_exchange_register_targeted_product_urls_addon() {
+function it_exchange_register_custom_url_tracking_addon() {
 	$options = array(
-		'name'              => __( 'Targeted Product URLs', 'LION' ),
-		'description'       => __( 'Allows you to add targeted URLs to products and to track usage.', 'LION' ),
+		'name'              => __( 'Custom URL Tracking', 'LION' ),
+		'description'       => __( 'Allows you to add custom URLs to products and to track usage.', 'LION' ),
 		'author'            => 'iThemes',
-		'author_url'        => 'http://ithemes.com/exchange/targeted-product-urls/',
-		'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/free-offers-50px.png' ),
+		'author_url'        => 'http://ithemes.com/exchange/custom-url-tracking/',
+		'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/custom-url-tracking-50px.png' ),
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'product-feature',
 		'basename'          => plugin_basename( __FILE__ ),
 	);
-	it_exchange_register_addon( 'targeted-product-urls', $options );
+	it_exchange_register_addon( 'custom-url-tracking', $options );
 }
-add_action( 'it_exchange_register_addons', 'it_exchange_register_targeted_product_urls_addon' );
+add_action( 'it_exchange_register_addons', 'it_exchange_register_custom_url_tracking_addon' );
 
 /**
  * Loads the translation data for WordPress
@@ -45,10 +45,10 @@ add_action( 'it_exchange_register_addons', 'it_exchange_register_targeted_produc
  * @since 1.0.0
  * @return void
 */
-function it_exchange_targeted_product_urls_set_textdomain() {
+function it_exchange_custom_url_tracking_set_textdomain() {
 	load_plugin_textdomain( 'LION', false, dirname( plugin_basename( __FILE__  ) ) . '/lang/' );
 }
-add_action( 'plugins_loaded', 'it_exchange_targeted_product_urls_set_textdomain' );
+add_action( 'plugins_loaded', 'it_exchange_custom_url_tracking_set_textdomain' );
 
 /**
  * Registers Plugin with iThemes updater class
@@ -58,8 +58,8 @@ add_action( 'plugins_loaded', 'it_exchange_targeted_product_urls_set_textdomain'
  * @param object $updater ithemes updater object
  * @return void
 */
-function ithemes_exchange_addon_targeted_product_urls_updater_register( $updater ) { 
-	    $updater->register( 'exchange-addon-targetd-product-urls', __FILE__ );
+function ithemes_exchange_addon_custom_url_tracking_updater_register( $updater ) { 
+	    $updater->register( 'exchange-addon-custom-url-tracking', __FILE__ );
 }
-//add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_targeted_product_urls_updater_register' );
+//add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_custom_url_tracking_updater_register' );
 //require( dirname( __FILE__ ) . '/lib/updater/load.php' );

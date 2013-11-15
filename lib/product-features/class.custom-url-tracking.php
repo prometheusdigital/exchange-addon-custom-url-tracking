@@ -1,12 +1,10 @@
 <?php
 /**
- * This controls the targeted product urls
+ * This controls the Custom URLs
  * @since 1.0.0
- * @package IT_Exchange_Addon_Targeted_Product_URLs
+ * @package IT_Exchange_Addon_Custom_URL_Tracking
 */
-
-
-class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
+class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 
 	/**
 	 * Constructor. Registers hooks
@@ -14,17 +12,17 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 	 * @since 1.0.0
 	 * @return void
 	*/
-	function IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature() {
+	function IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature() {
 		if ( is_admin() ) {
 			add_action( 'load-post-new.php', array( $this, 'init_feature_metaboxes' ) );
 			add_action( 'load-post.php', array( $this, 'init_feature_metaboxes' ) );
 			add_action( 'it_exchange_save_product', array( $this, 'save_feature_on_product_save' ) );
 		}
 		add_action( 'it_exchange_enabled_addons_loaded', array( $this, 'add_feature_support_to_product_types' ) );
-		add_action( 'it_exchange_update_product_feature_targeted-product-urls', array( $this, 'save_feature' ), 9, 3 );
-		add_filter( 'it_exchange_get_product_feature_targeted-product-urls', array( $this, 'get_feature' ), 9, 3 );
-		add_filter( 'it_exchange_product_has_feature_targeted-product-urls', array( $this, 'product_has_feature') , 9, 2 );
-		add_filter( 'it_exchange_product_supports_feature_targeted-product-urls', array( $this, 'product_supports_feature') , 9, 2 );
+		add_action( 'it_exchange_update_product_feature_custom-url-tracking', array( $this, 'save_feature' ), 9, 3 );
+		add_filter( 'it_exchange_get_product_feature_custom-url-tracking', array( $this, 'get_feature' ), 9, 3 );
+		add_filter( 'it_exchange_product_has_feature_custom-url-tracking', array( $this, 'product_has_feature') , 9, 2 );
+		add_filter( 'it_exchange_product_supports_feature_custom-url-tracking', array( $this, 'product_supports_feature') , 9, 2 );
 	}
 
 	/**
@@ -34,14 +32,14 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 	*/
 	function add_feature_support_to_product_types() {
 		// Register the product feature
-		$slug        = 'targeted-product-urls';
-		$description = __( "Allows you to add targeted URLs to products and to track usage.", 'LION' );
+		$slug        = 'custom-url-tracking';
+		$description = __( "Allows you to add custom URLs to products and to track usage.", 'LION' );
 		it_exchange_register_product_feature( $slug, $description );
 
 		// Add it to all enabled product-type addons
 		$products = it_exchange_get_enabled_addons( array( 'category' => 'product-type' ) );
 		foreach( $products as $key => $params ) { 
-			it_exchange_add_feature_support_to_product_type( 'targeted-product-urls', $params['slug'] );
+			it_exchange_add_feature_support_to_product_type( 'custom-url-tracking', $params['slug'] );
 		}
 	}
 
@@ -78,7 +76,7 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 			$product_type = it_exchange_get_product_type( $post );
 		
 		if ( ! empty( $post_type ) && 'it_exchange_prod' === $post_type ) {
-			if ( ! empty( $product_type ) &&  it_exchange_product_type_supports_feature( $product_type, 'targeted-product-urls' ) )
+			if ( ! empty( $product_type ) &&  it_exchange_product_type_supports_feature( $product_type, 'custom-url-tracking' ) )
 				add_action( 'it_exchange_product_metabox_callback_' . $product_type, array( $this, 'register_metabox' ) );
 		}
 		
@@ -93,7 +91,7 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 	 * @return void
 	*/
 	function register_metabox() {
-		add_meta_box( 'it-exchange-product-feature-targeted-product-urls', __( 'Custom URLs', 'LION' ), array( $this, 'print_metabox' ), 'it_exchange_prod', 'it_exchange_advanced' );
+		add_meta_box( 'it-exchange-product-feature-custom-url-tracking', __( 'Custom URLs', 'LION' ), array( $this, 'print_metabox' ), 'it_exchange_prod', 'it_exchange_advanced' );
 	}
 
 	/**
@@ -112,12 +110,11 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 			return;
 		}
 
-
 		// Grab the iThemes Exchange Product object from the WP $post object
 		$product = it_exchange_get_product( $post );
 
 		// Set the value of the feature for this product
-		$values = it_exchange_get_product_feature( $product->ID, 'targeted-product-urls' );
+		$values = it_exchange_get_product_feature( $product->ID, 'custom-url-tracking' );
 
 		$values['alternate-url-1']    = empty( $values['alternate-1']['url'] ) ? '' : $values['alternate-1']['url'];
 		$values['alternate-method-1'] = empty( $values['alternate-1']['method'] ) ? '' : $values['alternate-1']['method'];
@@ -133,24 +130,24 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 		?>
 		<div class="button-labels">
 			<div class="buy-now-label">
-				<label><?php _e( 'Targeted URLs', 'LION' ); ?></label>
-				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-1'] ); ?>" name="it-exchange-product-feature-targeted-product-urls[alternate-1][url]" />
-				<input type="text" value="<?php esc_attr_e( $values['alternate-method-1'] ); ?>" name="it-exchange-product-feature-targeted-product-urls[alternate-1][method]" />
+				<label><?php _e( 'Custom URLs', 'LION' ); ?></label>
+				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-1'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-1][url]" />
+				<input type="text" value="<?php esc_attr_e( $values['alternate-method-1'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-1][method]" />
 				<br />
-				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-2'] ); ?>" name="it-exchange-product-feature-targeted-product-urls[alternate-2][url]" />
-				<input type="text" value="<?php esc_attr_e( $values['alternate-method-2'] ); ?>" name="it-exchange-product-feature-targeted-product-urls[alternate-2][method]" />
+				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-2'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-2][url]" />
+				<input type="text" value="<?php esc_attr_e( $values['alternate-method-2'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-2][method]" />
 			</div>
 		</div>
 
-		<div class="targeted-stats">
+		<div class="custom-stats">
 			<?php
-			$targeted_clicks = get_post_meta( $post->ID, '_it_exchange_targeted_url_clicks', true );
-			if ( count($targeted_clicks) > 0 ) {
+			$custom_clicks = get_post_meta( $post->ID, '_it_exchange_custom_url_clicks', true );
+			if ( is_array( $custom_clicks ) && count( $custom_clicks ) > 0 ) {
 				echo '<br />';
-				echo '<strong>Targeted URL Stats</strong>';
+				echo '<strong>' . __( 'Unique Views', 'LION' ) . '</strong>';
 				echo '<hr />';
-				echo '<table padding=2 style="text-align:left;"><tr><th>Targeted URL</th><th>Clicks</th></tr>';
-				foreach( (array) $targeted_clicks as $url => $int ) {
+				echo '<table padding=2 style="text-align:left;"><tr><th>Custom URL</th><th>Clicks</th></tr>';
+				foreach( $custom_clicks as $url => $int ) {
 					echo "<tr><td>$url</td><td>$int</td></tr>";
 				}
 				echo '</table>';
@@ -184,14 +181,14 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 			return;
 
 		// Abort if this product type doesn't support this feature 
-		if ( ! it_exchange_product_type_supports_feature( $product_type, 'targeted-product-urls' ) || empty( $_POST['it-exchange-product-feature-targeted-product-urls']  ))
+		if ( ! it_exchange_product_type_supports_feature( $product_type, 'custom-url-tracking' ) || empty( $_POST['it-exchange-product-feature-custom-url-tracking']  ))
 			return;
 
 		// If the value is empty (0), delete the key, otherwise save
-		if ( empty( $_POST['it-exchange-product-feature-targeted-product-urls'] ) )
-			delete_post_meta( $product_id, '_it-exchange-product-feature-targeted-product-urls' );
+		if ( empty( $_POST['it-exchange-product-feature-custom-url-tracking'] ) )
+			delete_post_meta( $product_id, '_it-exchange-product-feature-custom-url-tracking' );
 		else
-			it_exchange_update_product_feature( $product_id, 'targeted-product-urls', $_POST['it-exchange-product-feature-targeted-product-urls'] );
+			it_exchange_update_product_feature( $product_id, 'custom-url-tracking', $_POST['it-exchange-product-feature-custom-url-tracking'] );
 	}
 
 	/**
@@ -213,9 +210,9 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 		$new_value = array_filter( $new_value );
 
 		if ( empty( $new_value ) ) {
-			delete_post_meta( $product_id, '_it-exchange-product-feature-targeted-product-urls' );
+			delete_post_meta( $product_id, '_it-exchange-product-feature-custom-url-tracking' );
 		} else {
-			update_post_meta( $product_id, '_it-exchange-product-feature-targeted-product-urls', $new_value );
+			update_post_meta( $product_id, '_it-exchange-product-feature-custom-url-tracking', $new_value );
 			add_option( '_it-exchange-flush-rewrites', true );
 		}
 		return true;
@@ -240,8 +237,8 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 		$editing_product = ( ! empty( $current_screen->id ) && 'it_exchange_prod' == $current_screen->id );
 
 		// Return the value if supported or on add/edit screen
-		if ( it_exchange_product_supports_feature( $product_id, 'targeted-product-urls' ) || $editing_product )
-			return get_post_meta( $product_id, '_it-exchange-product-feature-targeted-product-urls', true );
+		if ( it_exchange_product_supports_feature( $product_id, 'custom-url-tracking' ) || $editing_product )
+			return get_post_meta( $product_id, '_it-exchange-product-feature-custom-url-tracking', true );
 
 		return false;
 	}
@@ -285,10 +282,10 @@ class IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature {
 
 		// Does this product type support this feature?
 		$product_type = it_exchange_get_product_type( $product_id );
-		if ( ! it_exchange_product_type_supports_feature( $product_type, 'targeted-product-urls' ) )
+		if ( ! it_exchange_product_type_supports_feature( $product_type, 'custom-url-tracking' ) )
 			return false;
 
 		return true;
 	}
 }
-$IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature = new IT_Exchange_Addon_Targeted_Product_URLs_Product_Feature();
+$IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature = new IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature();
