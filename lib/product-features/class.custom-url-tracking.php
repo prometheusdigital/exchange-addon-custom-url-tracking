@@ -118,8 +118,10 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 
 		$values['alternate-url-1']    = empty( $values['alternate-1']['url'] ) ? '' : $values['alternate-1']['url'];
 		$values['alternate-method-1'] = empty( $values['alternate-1']['method'] ) ? '' : $values['alternate-1']['method'];
+		$values['alternate-builder-layout-1'] = empty( $values['alternate-1']['builder-layout'] ) ? '' : $values['alternate-1']['builder-layout'];
 		$values['alternate-url-2']    = empty( $values['alternate-2']['url'] ) ? '' : $values['alternate-2']['url'];
 		$values['alternate-method-2'] = empty( $values['alternate-2']['method'] ) ? '' : $values['alternate-2']['method'];
+		$values['alternate-builder-layout-2'] = empty( $values['alternate-2']['builder-layout'] ) ? '' : $values['alternate-2']['builder-layout'];
 		
 		$description = sprintf( __( "The following URLs will all map to %s.", 'LION' ), get_permalink( $post->ID ) );
 
@@ -133,9 +135,21 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 				<label><?php _e( 'Custom URLs', 'LION' ); ?></label>
 				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-1'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-1][url]" />
 				<input type="text" value="<?php esc_attr_e( $values['alternate-method-1'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-1][method]" />
+				<?php if ( function_exists( 'builder_add_theme_features' ) ) : ?>
+				<br />
+				<select name="it-exchange-product-feature-custom-url-tracking[alternate-1][builder-layout]">
+					<?php $this->print_builder_layout_select_box_options( $values['alternate-builder-layout-1'] ); ?>
+				</select>
+				<?php endif; ?>
 				<br />
 				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-2'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-2][url]" />
 				<input type="text" value="<?php esc_attr_e( $values['alternate-method-2'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-2][method]" />
+				<?php if ( function_exists( 'builder_add_theme_features' ) ) : ?>
+				<br />
+				<select name="it-exchange-product-feature-custom-url-tracking[alternate-2][builder-layout]">
+					<?php $this->print_builder_layout_select_box_options( $values['alternate-builder-layout-2'] ); ?>
+				</select>
+				<?php endif; ?>
 			</div>
 		</div>
 
@@ -155,6 +169,23 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 			?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Generates the Builder Layout select box
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	*/
+	function print_builder_layout_select_box_options( $selected=false ) {
+		$layout_data = apply_filters( 'it_storage_load_layout_settings', array() );
+		?>
+		<option value=""><?php _e( 'Default Layout', 'LION' ); ?></option>
+		<?php
+		foreach ( (array) $layout_data['layouts'] as $layout => $layout_data ) {
+			echo '<option value="' . esc_attr( $layout ) . '"' . selected( $layout, $selected ) . '>' . $layout_data['description'] . '</option>';
+		}
 	}
 
 	/**

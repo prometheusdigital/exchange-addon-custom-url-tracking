@@ -140,6 +140,18 @@ function it_exchange_custom_url_tracking_addon_increment_custom_url_click() {
 add_action( 'wp', 'it_exchange_custom_url_tracking_addon_increment_custom_url_click', 99 );
 
 function it_exchange_custom_url_tracking_addon_builder_layout( $layout ) {
+
+	$var = get_query_var( 'it_exchange_custom_url' );
+	if ( empty( $var ) || ! is_singular() )
+		return $layout;
+
+	$post_id     = empty( $GLOBALS['post']->ID ) ? 0 : $GLOBALS['post']->ID;
+	$custom_urls = get_post_meta( $post_id, '_it-exchange-product-feature-custom-url-tracking', true ); 
+	foreach( $custom_urls as $url => $data ) {
+		if ( $var = $data['url'] && ! empty( $data['builder-layout'] ) )
+			return $data['builder-layout'];
+	}
+
 	return $layout;
 }
 add_filter( 'builder_filter_current_layout', 'it_exchange_custom_url_tracking_addon_builder_layout' );
