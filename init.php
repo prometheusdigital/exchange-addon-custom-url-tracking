@@ -123,7 +123,14 @@ function it_exchange_custom_url_tracking_addon_increment_custom_url_click() {
 	$post_id = get_query_var( 'p' );
 	$custom_url = get_query_var( 'it_exchange_custom_url' );
 	$custom_url = empty( $custom_url ) ? false : urldecode( $custom_url );
-	if ( ! empty( $post_id ) && ! empty( $custom_url ) ) {
+
+	// Set cookie on first time today
+	if ( ! empty( $custom_url ) && empty( $_COOKIE['it-exchange-custom-url-' . sanitize_title_with_dashes( $custom_url )] ) ) {
+		setcookie( 'it-exchange-custom-url-' . sanitize_title_with_dashes( $custom_url ), true, time()+3600*24 );
+		$first_time = true;
+	}
+
+	if ( ! empty( $first_time) && ! empty( $post_id ) && ! empty( $custom_url ) ) {
 		$custom_url_clicks = get_post_meta( $post_id, '_it_exchange_custom_url_clicks', true );
 		$custom_url_clicks[$custom_url] = empty( $custom_url_clicks[$custom_url] ) ? 1 : $custom_url_clicks[$custom_url] + 1;
 		update_post_meta( $post_id, '_it_exchange_custom_url_clicks', $custom_url_clicks );
