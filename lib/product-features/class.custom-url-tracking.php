@@ -160,9 +160,13 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 				echo '<br />';
 				echo '<strong>' . __( 'Unique Views', 'LION' ) . '</strong>';
 				echo '<hr />';
-				echo '<table padding=2 style="text-align:left;"><tr><th>Custom URL</th><th>Clicks</th></tr>';
+				echo '<table padding=2 style="text-align:left;"><tr><th>Custom URL</th><th>Clicks</th><th colspan=2>Actions</th></tr>';
 				foreach( $custom_clicks as $url => $int ) {
-					echo "<tr><td>$url</td><td>$int</td></tr>";
+					echo '<tr>';
+					echo '<td>' . $url . '</td>';
+					echo '<td>' . $int . '</td>';
+					echo '<td><a target="_blank" href="' . get_site_url() . '/' . $url . '">' . __( 'View', 'LION' ) . '</a></td>';
+					echo '</tr>';
 				}
 				echo '</table>';
 			}
