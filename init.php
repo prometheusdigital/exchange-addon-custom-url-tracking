@@ -139,6 +139,14 @@ function it_exchange_custom_url_tracking_addon_increment_custom_url_click() {
 }
 add_action( 'wp', 'it_exchange_custom_url_tracking_addon_increment_custom_url_click', 99 );
 
+/**
+ * Filter the Builder Layout for the Custom URL
+ *
+ * @since 1.0.0
+ *
+ * @param string $layout the default builder layout
+ * @return string
+*/
 function it_exchange_custom_url_tracking_addon_builder_layout( $layout ) {
 
 	$var = get_query_var( 'it_exchange_custom_url' );

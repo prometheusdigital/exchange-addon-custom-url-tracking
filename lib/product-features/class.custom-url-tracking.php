@@ -17,6 +17,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 			add_action( 'load-post-new.php', array( $this, 'init_feature_metaboxes' ) );
 			add_action( 'load-post.php', array( $this, 'init_feature_metaboxes' ) );
 			add_action( 'it_exchange_save_product', array( $this, 'save_feature_on_product_save' ) );
+			add_action( 'admin_init', array( $this, 'reset_url_counter' ) );
 		}
 		add_action( 'it_exchange_enabled_addons_loaded', array( $this, 'add_feature_support_to_product_types' ) );
 		add_action( 'it_exchange_update_product_feature_custom-url-tracking', array( $this, 'save_feature' ), 9, 3 );
@@ -166,6 +167,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 					echo '<td>' . $url . '</td>';
 					echo '<td>' . $int . '</td>';
 					echo '<td><a target="_blank" href="' . get_site_url() . '/' . $url . '">' . __( 'View', 'LION' ) . '</a></td>';
+					echo '<td><a href="' . wp_nonce_url( add_query_arg( 'it-exchange-custom-url', urlencode( $url ) ), 'it-exchange-reset-custom-url-count-' . urlencode( $url ) ) . '">' . __( 'Reset', 'LION' ) . '</a></td>';
 					echo '</tr>';
 				}
 				echo '</table>';
@@ -190,6 +192,38 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		foreach ( (array) $layout_data['layouts'] as $layout => $layout_data ) {
 			echo '<option value="' . esc_attr( $layout ) . '"' . selected( $layout, $selected ) . '>' . $layout_data['description'] . '</option>';
 		}
+	}
+
+	/**
+	 * Reset the counter
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	*/
+	function reset_url_counter() {
+		$url   = empty( $_GET['it-exchange-custom-url'] ) ? false : $_GET['it-exchange-custom-url'];
+		$nonce = empty( $_GET['_wpnonce'] ) ? false : $_GET['_wpnonce'];
+		$post  = empty( $_GET['post'] ) ? false : $_GET['post'];
+
+		if ( empty( $url ) || empty( $nonce ) || empty( $post ) || ! wp_verify_nonce( $nonce, 'it-exchange-reset-custom-url-count-' . urlencode( $url ) ) )
+			return;
+
+		// Grab URL counts
+		$custom_clicks = get_post_meta( $post, '_it_exchange_custom_url_clicks', true );
+		if ( isset( $custom_clicks[$url] ) ){
+			$custom_clicks[$url] = 0;
+			update_post_meta( $post, '_it_exchange_custom_url_clicks', $custom_clicks );
+			$updated = true;
+		}
+
+		/**
+		* @todo Add notification messages to add/edit screen. We don't display them currently
+		* $message = empty( $updated ) ? __( 'Error. URL counter not reset. Please try again.', 'LION' ) : __( 'Custom URL counter reset.', 'LION' );
+		* it_exchange_add_message( empty( $updated) ? 'error' : 'notice', $message );
+		*/
+		wp_redirect( remove_query_arg( '_wpnonce', remove_query_arg( 'it-exchange-custom-url' ) ) );
+		die();
 	}
 
 	/**
