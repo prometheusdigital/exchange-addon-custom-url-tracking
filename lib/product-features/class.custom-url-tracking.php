@@ -129,8 +129,8 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		?>
 		<div class="existing-custom-urls">
 			<div class="existing-header">
-				<div class="existing-header-custom-urls"><?php __( 'Custom URLs', 'LION' ); ?></div>
-				<div class="existing-header-redirect-"><?php __( 'Redirect', 'LION' ); ?></div>
+				<div class="existing-header-custom-urls custom-url-column-left"><?php _e( 'Custom URLs', 'LION' ); ?></div>
+				<div class="existing-header-redirect custom-url-column-right"><?php _e( 'Redirect', 'LION' ); ?></div>
 			</div>
 
 			<?php $int = 0; ?>
@@ -143,19 +143,24 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 				$builder_layout = ( empty( $slug ) || empty( $existing_value['builder-layout'] ) ) ? false : $existing_value['builder-layout'];
 				?>
 				<div class="existing-custom-url existing-custom-url-<?php esc_attr_e( $int ); ?>">
-					<span class="base-url">
-						<?php echo site_url(); ?>/
-					</span>
-					<input type="text" class="existing-url-slug existing-url-slug-<?php esc_attr_e( $int ); ?>" value="<?php esc_attr_e( $slug ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][slug]" />
-					<a target="_blank" class="existing-url-link existing-url-link-<?php esc_attr_e( $int ); ?>" href="<?php esc_attr_e( get_site_url() ); ?>/<?php esc_attr_e( $slug ); ?>"><?php _e( 'View', 'LION' ); ?></a>
-					<input type="checkbox" class="existing-url-method existing-url-method-<?php esc_attr_e( $int ); ?>" value="redirect" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][method]" <?php checked( $method ); ?>/>
-
-					<?php /*
-					<a class="existing-url-delete existing-url-delete-<?php esc_attr_e( $int ); ?>" href="<?php echo wp_nonce_url( add_query_arg( 'it-exchange-delete-custom-url', urlencode( $slug ) ), 'it-exchange-delete-custom-url-' . urlencode( $slug ) ); ?>"><?php _e( 'Delete', 'LION' ); ?></a>
-					*/ ?>
+					<div class="custom-url-column-left">
+						<span class="base-url">
+							<?php echo site_url(); ?>/
+						</span>
+						<input type="text" class="existing-url-slug existing-url-slug-<?php esc_attr_e( $int ); ?>" value="<?php esc_attr_e( $slug ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][slug]" />
+						<a target="_blank" class="existing-url-link existing-url-link-<?php esc_attr_e( $int ); ?>" href="<?php esc_attr_e( get_site_url() ); ?>/<?php esc_attr_e( $slug ); ?>"><?php _e( 'View', 'LION' ); ?></a>
+					</div>
+					
+					<div class="custom-url-column-right">
+						<input type="checkbox" class="existing-url-method existing-url-method-<?php esc_attr_e( $int ); ?>" value="redirect" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][method]" <?php checked( $method ); ?>/>
+						<?php /*
+						<a class="existing-url-delete existing-url-delete-<?php esc_attr_e( $int ); ?>" href="<?php echo wp_nonce_url( add_query_arg( 'it-exchange-delete-custom-url', urlencode( $slug ) ), 'it-exchange-delete-custom-url-' . urlencode( $slug ) ); ?>">&times;</a>
+						*/ ?>
+					</div>
 
 					<?php if ( function_exists( 'builder_add_theme_features' ) ) : ?>
 					<div class="existing-url-builder-layout-div existing-url-builder-layout-div-<?php esc_attr_e( $int ); ?>">
+						<span>Builder Layout</span>
 						<select class="existing-url-builder-layout existing-url-builder-layout-<?php esc_attr_e( $int ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][builder-layout]">
 							<?php $this->print_builder_layout_select_box_options( $builder_layout ); ?>
 						</select>
@@ -170,17 +175,18 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 			$custom_clicks = get_post_meta( $post->ID, '_it_exchange_custom_url_clicks', true );
 			if ( is_array( $custom_clicks ) && count( $custom_clicks ) > 0 ) {
 				echo '<br />';
-				echo '<strong>' . __( 'Unique Views', 'LION' ) . '</strong>';
-				echo '<hr />';
-				echo '<table padding=2 style="text-align:left;"><tr><th>Custom URL</th><th>Clicks</th><th></th></tr>';
+				echo '<div class="unique-views-heading">' . __( 'Unique Views', 'LION' ) . '</div>';
+				echo '<div class="unique-views-list">';
 				foreach( $custom_clicks as $url => $int ) {
-					echo '<tr>';
-					echo '<td>/' . $url . '</td>';
-					echo '<td>' . $int . '</td>';
-					echo '<td><a href="' . wp_nonce_url( add_query_arg( 'it-exchange-custom-url', urlencode( $url ) ), 'it-exchange-reset-custom-url-count-' . urlencode( $url ) ) . '">' . __( 'Reset', 'LION' ) . '</a></td>';
-					echo '</tr>';
+					echo '<div class="unique-views-item">';
+					echo '<div class="unique-views-item-url">/' . $url . '</div>';
+					echo '<div class="unique-views-item-count">' . $int . '</div>';
+					echo '<div class="unique-views-item-count-reset">';
+					echo '	<a href="' . wp_nonce_url( add_query_arg( 'it-exchange-custom-url', urlencode( $url ) ), 'it-exchange-reset-custom-url-count-' . urlencode( $url ) ) .'">' . __( 'Reset', 'LION' ) . '</a>';
+					echo '</div>';
+					echo '</div>';
 				}
-				echo '</table>';
+				echo '</div>';
 			}
 			?>
 		</div>
