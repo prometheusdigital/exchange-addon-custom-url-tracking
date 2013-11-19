@@ -25,6 +25,20 @@ function it_exchange_custom_url_tracking_addon_admin_wp_enqueue_styles( $hook_su
 //add_action( 'it_exchange_admin_wp_enqueue_styles', 'it_exchange_custom_url_tracking_addon_admin_wp_enqueue_styles', 10, 2 );
 
 /**
+ * Enqueues JS on add/edit product page
+ *
+ * @since 1.0.0
+ * @param string $hook_suffix WordPress Hook Suffix
+ * @param string $post_type WordPress Post Type
+*/
+function it_exchange_custom_url_tracking_addon_admin_wp_enqueue_scripts( $hook_suffix, $post_type ) {
+	if ( isset( $post_type ) && 'it_exchange_prod' === $post_type ) {
+		wp_enqueue_script( 'it-exchange-custom-url-tracking-addon-add-edit-product', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/lib/js/add-edit-product.js' );
+	}
+}
+add_action( 'it_exchange_admin_wp_enqueue_scripts', 'it_exchange_custom_url_tracking_addon_admin_wp_enqueue_scripts', 10, 2 );
+
+/**
  * Registers the custom query_vars we use to track clicks
  *
  * @since CHANGEME
@@ -68,18 +82,18 @@ function it_exchange_custom_url_tracking_addon_get_rewrite_rules() {
 		$custom_urls = get_post_meta( $values->ID, '_it-exchange-product-feature-custom-url-tracking', true );
 		if ( ! empty( $custom_urls ) ) {
 			foreach( (array) $custom_urls as $custom_url ) {
-				$url    = empty( $custom_url['url'] ) ? false :  $custom_url['url'];
+				$slug   = empty( $custom_url['slug'] ) ? false :  $custom_url['slug'];
 				$method = empty( $custom_url['method'] ) ? 'passthrough' : $custom_url['method'];
-				if ( empty( $url ) || ! in_array( $method, array( 'passthrough', 'redirect' ) ) )
+				if ( empty( $slug ) || ! in_array( $method, array( 'passthrough', 'redirect' ) ) )
 					continue;
 
 				if ( 'redirect' == $method ) {
-					$rules = array_merge( array( $url => 'index.php?p=' . $values->ID . '&it_exchange_custom_url=' . urlencode( $url ) ), $rules );
+					$rules = array_merge( array( $slug => 'index.php?p=' . $values->ID . '&it_exchange_custom_url=' . urlencode( $slug ) ), $rules );
 				} else {
 					$post_type    = 'it_exchange_prod';
 					$product_slug = it_exchange_get_page_slug( 'product' );
 					$product_name = $values->post_name;
-					$rules = array_merge( array( $url => 'index.php?page=0&post_type=' . $post_type . '&' . $product_slug . '=' . $product_name . '&p=' . $values->ID . '&it_exchange_custom_url=' . urlencode( $url ) ), $rules );
+					$rules = array_merge( array( $slug => 'index.php?page=0&post_type=' . $post_type . '&' . $product_slug . '=' . $product_name . '&p=' . $values->ID . '&it_exchange_custom_url=' . urlencode( $slug ) ), $rules );
 				}
 			}
 		}
@@ -156,7 +170,7 @@ function it_exchange_custom_url_tracking_addon_builder_layout( $layout ) {
 	$post_id     = empty( $GLOBALS['post']->ID ) ? 0 : $GLOBALS['post']->ID;
 	$custom_urls = get_post_meta( $post_id, '_it-exchange-product-feature-custom-url-tracking', true ); 
 	foreach( $custom_urls as $url => $data ) {
-		if ( $var = $data['url'] && ! empty( $data['builder-layout'] ) )
+		if ( $var = $data['slug'] && ! empty( $data['builder-layout'] ) )
 			return $data['builder-layout'];
 	}
 

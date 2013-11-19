@@ -115,43 +115,54 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		$product = it_exchange_get_product( $post );
 
 		// Set the value of the feature for this product
-		$values = it_exchange_get_product_feature( $product->ID, 'custom-url-tracking' );
+		$existing_values = it_exchange_get_product_feature( $product->ID, 'custom-url-tracking' );
 
-		$values['alternate-url-1']    = empty( $values['alternate-1']['url'] ) ? '' : $values['alternate-1']['url'];
-		$values['alternate-method-1'] = empty( $values['alternate-1']['method'] ) ? '' : $values['alternate-1']['method'];
-		$values['alternate-builder-layout-1'] = empty( $values['alternate-1']['builder-layout'] ) ? '' : $values['alternate-1']['builder-layout'];
-		$values['alternate-url-2']    = empty( $values['alternate-2']['url'] ) ? '' : $values['alternate-2']['url'];
-		$values['alternate-method-2'] = empty( $values['alternate-2']['method'] ) ? '' : $values['alternate-2']['method'];
-		$values['alternate-builder-layout-2'] = empty( $values['alternate-2']['builder-layout'] ) ? '' : $values['alternate-2']['builder-layout'];
-		
-		$description = sprintf( __( "The following URLs will all map to %s.", 'LION' ), get_permalink( $post->ID ) );
+		if ( ! empty( $existing_values ) )
+			$description = sprintf( __( "The following URLs will all map to %s.", 'LION' ), get_permalink( $post->ID ) );
+		else
+			$description = sprintf( __( 'No custom URLs have been created for this product.', 'LION' ), get_permalink( $post->ID ) );
 
 		if ( $description ) {
 			echo '<p class="intro-description">' . $description . '</p>';
 		}
 	
 		?>
-		<div class="button-labels">
-			<div class="buy-now-label">
-				<label><?php _e( 'Custom URLs', 'LION' ); ?></label>
-				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-1'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-1][url]" />
-				<input type="text" value="<?php esc_attr_e( $values['alternate-method-1'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-1][method]" />
-				<?php if ( function_exists( 'builder_add_theme_features' ) ) : ?>
-				<br />
-				<select name="it-exchange-product-feature-custom-url-tracking[alternate-1][builder-layout]">
-					<?php $this->print_builder_layout_select_box_options( $values['alternate-builder-layout-1'] ); ?>
-				</select>
-				<?php endif; ?>
-				<br />
-				<?php echo site_url(); ?>/<input type="text" value="<?php esc_attr_e( $values['alternate-url-2'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-2][url]" />
-				<input type="text" value="<?php esc_attr_e( $values['alternate-method-2'] ); ?>" name="it-exchange-product-feature-custom-url-tracking[alternate-2][method]" />
-				<?php if ( function_exists( 'builder_add_theme_features' ) ) : ?>
-				<br />
-				<select name="it-exchange-product-feature-custom-url-tracking[alternate-2][builder-layout]">
-					<?php $this->print_builder_layout_select_box_options( $values['alternate-builder-layout-2'] ); ?>
-				</select>
-				<?php endif; ?>
+		<div class="existing-custom-urls">
+			<div class="existing-header">
+				<div class="existing-header-custom-urls"><?php __( 'Custom URLs', 'LION' ); ?></div>
+				<div class="existing-header-redirect-"><?php __( 'Redirect', 'LION' ); ?></div>
 			</div>
+
+			<?php $int = 0; ?>
+			<?php while( $int < 3 ) : ?>
+				<?php
+				$int++;
+				$existing_value = empty( $existing_values[$int] ) ? array() : $existing_values[$int];
+				$slug           = empty( $existing_value['slug'] ) ? '' : $existing_value['slug'];
+				$method         = ( ! empty( $slug) && ! empty( $existing_value['method'] ) && 'redirect' == $existing_value['method'] );
+				$builder_layout = ( empty( $slug ) || empty( $existing_value['builder-layout'] ) ) ? false : $existing_value['builder-layout'];
+				?>
+				<div class="existing-custom-url existing-custom-url-<?php esc_attr_e( $int ); ?>">
+					<span class="base-url">
+						<?php echo site_url(); ?>/
+					</span>
+					<input type="text" class="existing-url-slug existing-url-slug-<?php esc_attr_e( $int ); ?>" value="<?php esc_attr_e( $slug ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][slug]" />
+					<a target="_blank" class="existing-url-link existing-url-link-<?php esc_attr_e( $int ); ?>" href="<?php esc_attr_e( get_site_url() ); ?>/<?php esc_attr_e( $slug ); ?>"><?php _e( 'View', 'LION' ); ?></a>
+					<input type="checkbox" class="existing-url-method existing-url-method-<?php esc_attr_e( $int ); ?>" value="redirect" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][method]" <?php checked( $method ); ?>/>
+
+					<?php /*
+					<a class="existing-url-delete existing-url-delete-<?php esc_attr_e( $int ); ?>" href="<?php echo wp_nonce_url( add_query_arg( 'it-exchange-delete-custom-url', urlencode( $slug ) ), 'it-exchange-delete-custom-url-' . urlencode( $slug ) ); ?>"><?php _e( 'Delete', 'LION' ); ?></a>
+					*/ ?>
+
+					<?php if ( function_exists( 'builder_add_theme_features' ) ) : ?>
+					<div class="existing-url-builder-layout-div existing-url-builder-layout-div-<?php esc_attr_e( $int ); ?>">
+						<select class="existing-url-builder-layout existing-url-builder-layout-<?php esc_attr_e( $int ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][builder-layout]">
+							<?php $this->print_builder_layout_select_box_options( $builder_layout ); ?>
+						</select>
+					</div>
+					<?php endif; ?>
+				</div>
+			<?php endwhile; ?>
 		</div>
 
 		<div class="custom-stats">
@@ -161,12 +172,11 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 				echo '<br />';
 				echo '<strong>' . __( 'Unique Views', 'LION' ) . '</strong>';
 				echo '<hr />';
-				echo '<table padding=2 style="text-align:left;"><tr><th>Custom URL</th><th>Clicks</th><th colspan=2>Actions</th></tr>';
+				echo '<table padding=2 style="text-align:left;"><tr><th>Custom URL</th><th>Clicks</th><th></th></tr>';
 				foreach( $custom_clicks as $url => $int ) {
 					echo '<tr>';
-					echo '<td>' . $url . '</td>';
+					echo '<td>/' . $url . '</td>';
 					echo '<td>' . $int . '</td>';
-					echo '<td><a target="_blank" href="' . get_site_url() . '/' . $url . '">' . __( 'View', 'LION' ) . '</a></td>';
 					echo '<td><a href="' . wp_nonce_url( add_query_arg( 'it-exchange-custom-url', urlencode( $url ) ), 'it-exchange-reset-custom-url-count-' . urlencode( $url ) ) . '">' . __( 'Reset', 'LION' ) . '</a></td>';
 					echo '</tr>';
 				}
