@@ -147,8 +147,10 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 						<span class="base-url">
 							<?php echo site_url(); ?>/
 						</span>
-						<input type="text" class="existing-url-slug existing-url-slug-<?php esc_attr_e( $int ); ?>" value="<?php esc_attr_e( $slug ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][slug]" />
+						<input type="text" class="existing-url-slug existing-url-slug-<?php esc_attr_e( $int ); ?>" data-original-value="<?php esc_attr_e( $slug ); ?>" value="<?php esc_attr_e( $slug ); ?>" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][slug]" />
+						<?php if ( ! empty( $slug ) ) : ?>
 						<a target="_blank" class="existing-url-link existing-url-link-<?php esc_attr_e( $int ); ?>" href="<?php esc_attr_e( get_site_url() ); ?>/<?php esc_attr_e( $slug ); ?>"><?php _e( 'View', 'LION' ); ?></a>
+						<?php endif; ?>
 					</div>
 					
 					<div class="custom-url-column-right">
