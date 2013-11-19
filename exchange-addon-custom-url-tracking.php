@@ -3,7 +3,7 @@
  * Plugin Name: iThemes Exchange - Custom URL Tracking
  * Version: 1.0.0
  * Description: Allows you to add custom URLs to products and to track usage.
- * Plugin URI: http://ithemes.com/exchange/customer-url-tracking/
+ * Plugin URI: http://ithemes.com/purchase/custom-urls-add-on/
  * Author: iThemes
  * Author URI: http://ithemes.com
  * iThemes Package: exchange-addon-custom-url-tracking
@@ -28,7 +28,7 @@ function it_exchange_register_custom_url_tracking_addon() {
 		'name'              => __( 'Custom URL Tracking', 'LION' ),
 		'description'       => __( 'Allows you to add custom URLs to products and to track usage.', 'LION' ),
 		'author'            => 'iThemes',
-		'author_url'        => 'http://ithemes.com/exchange/custom-url-tracking/',
+		'author_url'        => 'http://ithemes.com/purchase/custom-urls-add-on/',
 		'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/lib/images/custom-url-tracking-50px.png' ),
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'product-feature',
