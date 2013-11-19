@@ -1,19 +1,18 @@
 /** -----------------------------------------------------:[ Unique URLs ]:---------- */
 #it-exchange-product-feature-custom-url-tracking .existing-header {border-bottom: 1px solid #DDD;overflow:hidden;padding: 1em 0;}
-#it-exchange-product-feature-custom-url-tracking .custom-url-column-left {width: 80%;float:left;}
-#it-exchange-product-feature-custom-url-tracking .custom-url-column-right {width: 20%;float:right;}
+#it-exchange-product-feature-custom-url-tracking .custom-url-column-left {width: 75%;float:left;}
+#it-exchange-product-feature-custom-url-tracking .custom-url-column-right {width: 25%;float:right;}
 #it-exchange-product-feature-custom-url-tracking .existing-header-custom-urls {font-weight: bold;}
 #it-exchange-product-feature-custom-url-tracking .existing-custom-url {border-bottom: 1px solid #DDD;padding: 1em 0;overflow:hidden;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-slug {width: 100%;max-width: 200px;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-link {margin-left: .75em;}
-#it-exchange-product-feature-custom-url-tracking .existing-url-method {margin: 1em;}
-#it-exchange-product-feature-custom-url-tracking .existing-url-delete {text-decoration: none;float: right;margin: 1em;color: #BBB;box-sizing: content-box;display: inline-block;width: 20px;height: 20px;border: 2px solid transparent;border-radius: 50%;font-size: 14px;line-height: 1.4em;text-align: center;-webkit-transition: all .2s linear;-moz-transition: all .2s linear;transition: all .2s linear;}
+#it-exchange-product-feature-custom-url-tracking .existing-url-method {margin: 1em 0 0 1em;}
+#it-exchange-product-feature-custom-url-tracking .existing-url-delete {text-decoration: none;float: right;margin: 1em 1em 0 0;color: #BBB;box-sizing: content-box;display: inline-block;width: 20px;height: 20px;border: 2px solid transparent;border-radius: 50%;font-size: 14px;line-height: 1.4em;text-align: center;-webkit-transition: all .2s linear;-moz-transition: all .2s linear;transition: all .2s linear;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-delete:hover {color: #E1797A;border-color: #E1797A;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-builder-layout-div {padding: 1em 0;clear:left;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-builder-layout-div span {display: block;font-weight: normal;margin-bottom: 5px;}
 
 /** -----------------------------------------------------:[ Unique View Stats ]:---------- */
-
 #it-exchange-product-feature-custom-url-tracking .unique-views-heading {font-weight: 700;margin: 1.5em 0 .75em 0;}
 #it-exchange-product-feature-custom-url-tracking .unique-views-item {border-top: 1px solid #DDD;padding: 1em 0;overflow:hidden;}
 #it-exchange-product-feature-custom-url-tracking .unique-views-item-url,
