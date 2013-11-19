@@ -11,7 +11,7 @@
 require( 'lib/product-features/load.php' );
 
 /**
- * Enqueues styles for Free Offers pages
+ * Enqueues styles for add-edit product page
  *
  * @since 1.0.0
  * @param string $hook_suffix WordPress Hook Suffix
@@ -22,7 +22,7 @@ function it_exchange_custom_url_tracking_addon_admin_wp_enqueue_styles( $hook_su
 		wp_enqueue_style( 'it-exchange-custom-url-tracking-addon-add-edit-product', ITUtility::get_url_from_file( dirname( __FILE__ ) ) . '/lib/styles/add-edit-product.css' );
 	}
 }
-//add_action( 'it_exchange_admin_wp_enqueue_styles', 'it_exchange_custom_url_tracking_addon_admin_wp_enqueue_styles', 10, 2 );
+add_action( 'it_exchange_admin_wp_enqueue_styles', 'it_exchange_custom_url_tracking_addon_admin_wp_enqueue_styles', 10, 2 );
 
 /**
  * Enqueues JS on add/edit product page
