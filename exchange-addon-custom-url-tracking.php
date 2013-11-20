@@ -61,5 +61,5 @@ add_action( 'plugins_loaded', 'it_exchange_custom_url_tracking_set_textdomain' )
 function ithemes_exchange_addon_custom_url_tracking_updater_register( $updater ) { 
 	    $updater->register( 'exchange-addon-custom-url-tracking', __FILE__ );
 }
-//add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_custom_url_tracking_updater_register' );
-//require( dirname( __FILE__ ) . '/lib/updater/load.php' );
+add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_custom_url_tracking_updater_register' );
+require( dirname( __FILE__ ) . '/lib/updater/load.php' );
