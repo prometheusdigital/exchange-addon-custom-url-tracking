@@ -5,7 +5,8 @@
 #it-exchange-product-feature-custom-url-tracking .existing-header-custom-urls {font-weight: bold;}
 #it-exchange-product-feature-custom-url-tracking .existing-custom-url {border-bottom: 1px solid #DDD;padding: 1em 0;overflow:hidden;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-slug {width: 100%;max-width: 200px;}
-#it-exchange-product-feature-custom-url-tracking .existing-url-link {margin-left: .75em;}
+#it-exchange-product-feature-custom-url-tracking .existing-url-link {margin-left: .25em;display:inline-block;width: 13px;height: 12px;background: url(../images/link.png) 0 0 no-repeat;text-indent: -9999px;}
+#it-exchange-product-feature-custom-url-tracking .existing-url-link:hover{opacity: .7;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-method {margin: 1em 0 0 1em;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-delete {text-decoration: none;float: right;margin: 1em 1em 0 0;color: #BBB;box-sizing: content-box;display: inline-block;width: 20px;height: 20px;border: 2px solid transparent;border-radius: 50%;font-size: 14px;line-height: 1.4em;text-align: center;-webkit-transition: all .2s linear;-moz-transition: all .2s linear;transition: all .2s linear;}
 #it-exchange-product-feature-custom-url-tracking .existing-url-delete:hover {color: #E1797A;border-color: #E1797A;}
