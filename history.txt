@@ -1,0 +1,2 @@
+1.0.0 - 2013-11-20 - Glenn Ansley, Ty Carlson, Brad Ulrich, Elise Alley
+	Initial Release
