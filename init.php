@@ -170,7 +170,7 @@ function it_exchange_custom_url_tracking_addon_builder_layout( $layout ) {
 	$post_id     = empty( $GLOBALS['post']->ID ) ? 0 : $GLOBALS['post']->ID;
 	$custom_urls = get_post_meta( $post_id, '_it-exchange-product-feature-custom-url-tracking', true ); 
 	foreach( $custom_urls as $url => $data ) {
-		if ( $var = $data['slug'] && ! empty( $data['builder-layout'] ) )
+		if ( $data['slug'] == $var && ! empty( $data['builder-layout'] ) )
 			return $data['builder-layout'];
 	}
 
