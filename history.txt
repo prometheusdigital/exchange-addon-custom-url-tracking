@@ -13,3 +13,6 @@
 	Bug Fix: Licensing on SSL-enabled sites now works properly.
 1.0.5 - 2014-02-05 - Glenn Ansley
 	Bug Fix: If using multiple custom URLS with different Builder Layouts, all URLs were using the first Builder Layout. This has been fixed.
+1.0.6 - 2014-11-14 - Packaging Bot (lib/updater)
+	Enhancement: Reduced caching to allow updates to appear more quickly.
+	Enhancement: Authenticating users now uses the new authentication system.
