@@ -240,7 +240,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		* $message = empty( $updated ) ? __( 'Error. URL counter not reset. Please try again.', 'LION' ) : __( 'Custom URL counter reset.', 'LION' );
 		* it_exchange_add_message( empty( $updated) ? 'error' : 'notice', $message );
 		*/
-		wp_redirect( remove_query_arg( '_wpnonce', remove_query_arg( 'it-exchange-custom-url' ) ) );
+		wp_redirect( esc_url_raw( remove_query_arg( '_wpnonce', remove_query_arg( 'it-exchange-custom-url' ) ) ) );
 		die();
 	}
 
