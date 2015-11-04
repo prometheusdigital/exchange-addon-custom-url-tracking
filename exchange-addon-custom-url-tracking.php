@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: iThemes Exchange - Custom URL Tracking
- * Version: 1.1.2
+ * Version: 1.2.0
  * Description: Allows you to add custom URLs to products and to track usage.
  * Plugin URI: http://ithemes.com/purchase/custom-urls-add-on/
  * Author: iThemes
