@@ -33,7 +33,6 @@ function it_exchange_register_custom_url_tracking_addon() {
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'product-feature',
 		'basename'          => plugin_basename( __FILE__ ),
-		'settings-callback' => 'it_exchange_custom_url_tracking_addon_settings_callback',
 	);
 	it_exchange_register_addon( 'custom-url-tracking', $options );
 }
@@ -62,7 +61,7 @@ add_action( 'plugins_loaded', 'it_exchange_custom_url_tracking_set_textdomain' )
 function ithemes_exchange_addon_custom_url_tracking_updater_register( $updater ) {
 	    $updater->register( 'exchange-addon-custom-url-tracking', __FILE__ );
 }
-add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_custom_url_tracking_updater_register' );
+// add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_custom_url_tracking_updater_register' );
 // require( dirname( __FILE__ ) . '/lib/updater/load.php' );
 
 
