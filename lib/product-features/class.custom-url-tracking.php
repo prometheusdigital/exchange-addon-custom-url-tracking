@@ -25,7 +25,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		add_filter( 'it_exchange_product_has_feature_custom-url-tracking', array( $this, 'product_has_feature') , 9, 2 );
 		add_filter( 'it_exchange_product_supports_feature_custom-url-tracking', array( $this, 'product_supports_feature') , 9, 2 );
 	}
-	
+
 	/**
 	 * Constructor Deprecated Registers hooks
 	 *
@@ -49,7 +49,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 
 		// Add it to all enabled product-type addons
 		$products = it_exchange_get_enabled_addons( array( 'category' => 'product-type' ) );
-		foreach( $products as $key => $params ) { 
+		foreach( $products as $key => $params ) {
 			it_exchange_add_feature_support_to_product_type( 'custom-url-tracking', $params['slug'] );
 		}
 	}
@@ -61,9 +61,9 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	 * @return void
 	*/
 	function init_feature_metaboxes() {
-		
+
 		global $post;
-		
+
 		if ( isset( $_REQUEST['post_type'] ) ) {
 			$post_type = $_REQUEST['post_type'];
 		} else {
@@ -80,23 +80,23 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 			if ( isset( $post ) && ! empty( $post ) )
 				$post_type = $post->post_type;
 		}
-			
+
 		if ( ! empty( $_REQUEST['it-exchange-product-type'] ) )
 			$product_type = $_REQUEST['it-exchange-product-type'];
 		else
 			$product_type = it_exchange_get_product_type( $post );
-		
+
 		if ( ! empty( $post_type ) && 'it_exchange_prod' === $post_type ) {
 			if ( ! empty( $product_type ) &&  it_exchange_product_type_supports_feature( $product_type, 'custom-url-tracking' ) )
 				add_action( 'it_exchange_product_metabox_callback_' . $product_type, array( $this, 'register_metabox' ) );
 		}
-		
+
 	}
 
 	/**
 	 * Registers the feature metabox for a specific product type
 	 *
-	 * Hooked to it_exchange_product_metabox_callback_[product-type] where product type supports the feature 
+	 * Hooked to it_exchange_product_metabox_callback_[product-type] where product type supports the feature
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -121,7 +121,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 			return;
 		}
 
-		// Grab the iThemes Exchange Product object from the WP $post object
+		// Grab the ExchangeWP Product object from the WP $post object
 		$product = it_exchange_get_product( $post );
 
 		// Set the value of the feature for this product
@@ -135,7 +135,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		if ( $description ) {
 			echo '<p class="intro-description">' . $description . '</p>';
 		}
-	
+
 		?>
 		<div class="existing-custom-urls">
 			<div class="existing-header">
@@ -162,7 +162,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 						<a target="_blank" class="existing-url-link existing-url-link-<?php esc_attr_e( $int ); ?>" href="<?php esc_attr_e( get_site_url() ); ?>/<?php esc_attr_e( $slug ); ?>"><?php _e( 'View', 'LION' ); ?></a>
 						<?php endif; ?>
 					</div>
-					
+
 					<div class="custom-url-column-right">
 						<input type="checkbox" class="existing-url-method existing-url-method-<?php esc_attr_e( $int ); ?>" value="redirect" name="it-exchange-product-feature-custom-url-tracking[<?php esc_attr_e( $int ); ?>][method]" <?php checked( $method ); ?>/>
 						<?php /*
@@ -265,7 +265,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	function save_feature_on_product_save() {
 
 		// Don't add if using default permalinks
-		if ( ! get_option( 'permalink_structure' ) ) 
+		if ( ! get_option( 'permalink_structure' ) )
 			return;
 
 		// Abort if we can't determine a product type
@@ -277,7 +277,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 		if ( ! $product_id )
 			return;
 
-		// Abort if this product type doesn't support this feature 
+		// Abort if this product type doesn't support this feature
 		if ( ! it_exchange_product_type_supports_feature( $product_type, 'custom-url-tracking' ) || empty( $_POST['it-exchange-product-feature-custom-url-tracking']  ))
 			return;
 
@@ -294,13 +294,13 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	 * @since 1.0.0
 	 *
 	 * @param integer $product_id the product id
-	 * @param mixed $new_value the new value 
+	 * @param mixed $new_value the new value
 	 * @return bolean
 	*/
 	function save_feature( $product_id, $new_value ) {
 
 		// Don't save if using default permalinks
-		if ( ! get_option( 'permalink_structure' ) ) 
+		if ( ! get_option( 'permalink_structure' ) )
 			return false;
 
 		// Delete any vars that are empty
@@ -326,7 +326,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	function get_feature( $existing, $product_id ) {
 
 		// Don't return if using default permalinks
-		if ( ! get_option( 'permalink_structure' ) ) 
+		if ( ! get_option( 'permalink_structure' ) )
 			return false;
 
 		// Is the the add / edit product page?
@@ -351,7 +351,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	function product_has_feature( $result, $product_id ) {
 
 		// Return false if using default permalinks
-		if ( ! get_option( 'permalink_structure' ) ) 
+		if ( ! get_option( 'permalink_structure' ) )
 			return false;
 
 		// Does this product type support this feature?
@@ -363,7 +363,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	/**
 	 * Does the product support this feature?
 	 *
-	 * This is different than if it has the feature, a product can 
+	 * This is different than if it has the feature, a product can
 	 * support a feature but might not have the feature set.
 	 *
 	 * @since 1.0.0
@@ -374,7 +374,7 @@ class IT_Exchange_Addon_Custom_URL_Tracking_Product_Feature {
 	function product_supports_feature( $result, $product_id ) {
 
 		// Return false if using default permalinks
-		if ( ! get_option( 'permalink_structure' ) ) 
+		if ( ! get_option( 'permalink_structure' ) )
 			return false;
 
 		// Does this product type support this feature?

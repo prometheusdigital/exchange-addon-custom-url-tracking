@@ -1,6 +1,6 @@
 <?php
 /**
- * iThemes Exchange Custom URL Tracking Add-on
+ * ExchangeWP Custom URL Tracking Add-on
  * @package IT_Exchange_Addon_Custom_URL_Tracking
  * @since 1.0.0
 */
@@ -10,6 +10,8 @@
 */
 require( 'lib/product-features/load.php' );
 
+
+require( 'lib/addon-settings.php' );
 /**
  * Enqueues styles for add-edit product page
  *
@@ -65,16 +67,16 @@ add_filter( 'query_vars', 'it_exchange_custom_url_tracking_register_query_vars' 
  * @return array
 */
 function it_exchange_custom_url_tracking_addon_get_rewrite_rules() {
-	
+
 	$args = array(
 		'meta_query' => array(
 			array(
 				'key'     => '_it-exchange-product-feature-custom-url-tracking',
 				'compare' => 'EXISTS',
-			)   
-		),  
+			)
+		),
 		'show_hidden' => true,
-	);  
+	);
 	$rewrite_posts = it_exchange_get_products( $args );
 
 	$rules = array();
@@ -168,7 +170,7 @@ function it_exchange_custom_url_tracking_addon_builder_layout( $layout ) {
 		return $layout;
 
 	$post_id     = empty( $GLOBALS['post']->ID ) ? 0 : $GLOBALS['post']->ID;
-	$custom_urls = get_post_meta( $post_id, '_it-exchange-product-feature-custom-url-tracking', true ); 
+	$custom_urls = get_post_meta( $post_id, '_it-exchange-product-feature-custom-url-tracking', true );
 	foreach( $custom_urls as $url => $data ) {
 		if ( $data['slug'] == $var && ! empty( $data['builder-layout'] ) )
 			return $data['builder-layout'];
