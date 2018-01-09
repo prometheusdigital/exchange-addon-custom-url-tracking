@@ -10,8 +10,6 @@
 */
 require( 'lib/product-features/load.php' );
 
-
-require( 'lib/addon-settings.php' );
 /**
  * Enqueues styles for add-edit product page
  *
