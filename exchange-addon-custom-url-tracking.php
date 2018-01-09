@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: ExchangeWP - Custom URL Tracking
- * Version: 0.0.1
+ * Version: 1.2.2
  * Description: Allows you to add custom URLs to products and to track usage.
  * Plugin URI: https://exchangewp.com/downloads/custom-url-tracking/
  * Author: ExchangeWP
@@ -67,7 +67,7 @@ function exchange_custom_url_tracking_plugin_updater() {
 
 			// setup the updater
 			$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
-					'version' 		=> '0.0.1', 				// current version number
+					'version' 		=> '1.2.2', 				// current version number
 					'license' 		=> $license, 		// license key (used get_option above to retrieve from DB)
 					'item_id'		 	=> 450,					 	  // name of this plugin
 					'author' 	  	=> 'ExchangeWP',    // author of this plugin
