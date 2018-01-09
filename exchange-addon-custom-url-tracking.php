@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: ExchangeWP - Custom URL Tracking
- * Version: 1.2.1
+ * Version: 1.2.2
  * Description: Allows you to add custom URLs to products and to track usage.
  * Plugin URI: https://exchangewp.com/downloads/custom-url-tracking/
  * Author: ExchangeWP
@@ -33,7 +33,6 @@ function it_exchange_register_custom_url_tracking_addon() {
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'product-feature',
 		'basename'          => plugin_basename( __FILE__ ),
-		'settings-callback' => 'it_exchange_custom_url_tracking_addon_settings_callback',
 	);
 	it_exchange_register_addon( 'custom-url-tracking', $options );
 }
@@ -59,38 +58,25 @@ add_action( 'plugins_loaded', 'it_exchange_custom_url_tracking_set_textdomain' )
  * @param object $updater ithemes updater object
  * @return void
 */
-function ithemes_exchange_addon_custom_url_tracking_updater_register( $updater ) {
-	    $updater->register( 'exchange-addon-custom-url-tracking', __FILE__ );
-}
-// add_action( 'ithemes_updater_register', 'ithemes_exchange_addon_custom_url_tracking_updater_register' );
-// require( dirname( __FILE__ ) . '/lib/updater/load.php' );
-
-
-if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) )  {
-	require_once 'EDD_SL_Plugin_Updater.php';
-}
-
 function exchange_custom_url_tracking_plugin_updater() {
 
-	// retrieve our license key from the DB
-	$exchangewp_custom_url_tracking_options = get_option( 'it-storage-exchange_custom_url_tracking-addon' );
-	$license_key = $exchangewp_custom_url_tracking_options['custom_url_tracking-license-key'];
+	$license_check = get_transient( 'exchangewp_license_check' );
+		if ($license_check->license == 'valid' ) {
+			$license_key = it_exchange_get_option( 'exchangewp_licenses' );
+			$license = $license_key['exchange_license'];
 
-
-	// setup the updater
-	$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
-			'version' 		=> '1.2.1', 				// current version number
-			'license' 		=> $license_key, 		// license key (used get_option above to retrieve from DB)
-			'item_name' 	=> urlencode( 'custom-url-tracking' ), 	  // name of this plugin
-			'author' 	  	=> 'ExchangeWP',    // author of this plugin
-			'url'       	=> home_url(),
-			'wp_override' => true,
-			'beta'		  	=> false
-		)
-	);
-	// var_dump($edd_updater);
-	// die();
-
+			// setup the updater
+			$edd_updater = new EDD_SL_Plugin_Updater( 'https://exchangewp.com', __FILE__, array(
+					'version' 		=> '1.2.2', 				// current version number
+					'license' 		=> $license, 		// license key (used get_option above to retrieve from DB)
+					'item_id'		 	=> 450,					 	  // name of this plugin
+					'author' 	  	=> 'ExchangeWP',    // author of this plugin
+					'url'       	=> home_url(),
+					'wp_override' => true,
+					'beta'		  	=> false
+				)
+			);
+		}
 }
 
 add_action( 'admin_init', 'exchange_custom_url_tracking_plugin_updater', 0 );
